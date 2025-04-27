@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" routerLink="/" routerLinkActive="active">
+      <i class="fas fa-tasks"></i> Control de Actividades
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/actividades" routerLinkActive="active">
+            <i class="fas fa-home"></i> Inicio
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/actividades/add" routerLinkActive="active">
+            <i class="fas fa-plus"></i> Agregar Actividad
+          </a>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-danger" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-3 pt-3 wrap">
+  <div class="row">
+    <div class="col-lg-4 col-md-6 mb-4" *ngFor="let actividad of actividades">
+      <div class="card border-0 shadow-sm rounded-lg">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h6 class="fw-bold m-0">{{ actividad.nomActi }}</h6>
+          <button class="btn btn-sm btn-outline-light" (click)="deleteActiviti(actividad.id)">
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <p class="card-text text-muted">{{ actividad.descActi }}</p>
+          <div class="d-flex justify-content-between text-secondary">
+            <small><i class="fas fa-calendar-alt"></i> Inicio: {{ actividad.fechaIni | date: 'dd-MM-yyyy' }}</small>
+            <small><i class="fas fa-calendar-check"></i> Fin: {{ actividad.fechaFin | date: 'dd-MM-yyyy' }}</small>
+          </div>
+        </div>
+        <div class="card-footer bg-white text-center d-flex justify-content-between">
+          <a [routerLink]="['/actividades/edit', actividad.id]" class="btn btn-info btn-sm px-3">
+            <i class="fas fa-edit"></i> Editar
+          </a>
+          <button class="btn btn-success btn-sm" >
+            <i class="fas fa-check-circle"></i> Completado
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

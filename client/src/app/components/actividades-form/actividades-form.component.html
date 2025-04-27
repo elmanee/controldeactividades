@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" routerLink="/" routerLinkActive="active">
+      <i class="fas fa-tasks"></i> Control de Actividades
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/actividades" routerLinkActive="active">
+            <i class="fas fa-home"></i> Inicio
+          </a>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-danger" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="col-md-6 offset-md-3">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-body">
+      <h5 class="card-title text-center text-primary mb-4">
+        {{ edit ? 'Editar Actividad' : 'Agregar Actividad' }}
+      </h5>
+      <form (ngSubmit)="edit ? updateAvtivite() : saveNewActivitie()">
+        <div class="form-group mb-4">
+          <label for="nomActi" class="form-label">Título de Actividad</label>
+          <input type="text" class="form-control border-0 rounded-3 shadow-sm"
+                 id="nomActi" [(ngModel)]="actividad.nomActi" name="nomActi"
+                 placeholder="Titulo de Actividad" autofocus required>
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="descActi" class="form-label">Descripción de Actividad</label>
+          <textarea class="form-control border-0 rounded-3 shadow-sm"
+                    id="descActi"
+                    [(ngModel)]="actividad.descActi"
+                    name="descActi"
+                    placeholder="Descripción de Actividad"
+                    required
+                    rows="4"></textarea>
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="fechaIni" class="form-label">Fecha de Inicio</label>
+          <input type="date" class="form-control border-0 rounded-3 shadow-sm" id="fechaIni" [(ngModel)]="actividad.fechaIni" name="fechaIni" required>
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="fechaFin" class="form-label">Fecha de Fin</label>
+          <input type="date" class="form-control border-0 rounded-3 shadow-sm" id="fechaFin" [(ngModel)]="actividad.fechaFin" name="fechaFin" required>
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="prioridadActi" class="form-label">Prioridad</label>
+          <select class="form-control border-0 rounded-3 shadow-sm"
+                  id="prioridadActi"
+                  [(ngModel)]="actividad.prioridadActi"
+                  name="prioridadActi"
+                  required>
+            <option value="" disabled selected>Seleccione una prioridad</option>
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja">Baja</option>
+          </select>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg">
+            {{ edit ? 'Actualizar Actividad' : 'Guardar Actividad' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
