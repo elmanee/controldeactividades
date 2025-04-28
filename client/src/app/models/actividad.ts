@@ -1,10 +1,11 @@
-export interface Actividad{
-  id?:number | string;
+export interface Actividad {
+  id?: string | number;
   nomActi?: string;
   descActi?: string;
-  fechaIni?: Date | string;
-  fechaFin?: Date | string;
+  fechaIni?: Date;
+  fechaFin?: Date;
   prioridadActi?: string;
+  usuario_id?: number;
   created_at?: Date;
-  usuario_id?:number | undefined;
+  estado?: 'pendiente' | 'no-realizada' | 'terminada';
 }

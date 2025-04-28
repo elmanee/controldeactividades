@@ -1,56 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { ActividadesService } from '../../services/actividades.service'
+import { ActividadesService } from '../../services/actividades.service';
 import { Router } from '@angular/router';
-import { AuthService  } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-actividades',
   templateUrl: './actividades.component.html',
-  styleUrl: './actividades.component.css'
+  styleUrls: ['./actividades.component.css']
 })
 export class ActividadesComponent implements OnInit {
-
-  actividades : any = []
+  // Contadores para el dashboard
+  contadorPendientes: number = 0;
+  contadorNoRealizadas: number = 0;
+  contadorTerminadas: number = 0;
 
   constructor(
-    private actividadesSerive: ActividadesService,
+    private actividadesService: ActividadesService,
     private authService: AuthService,
     private router: Router
-  ){
+  ) {}
 
+
+  ngOnInit() {
+    this.actualizarContadores();
   }
 
-  ngOnInit(){
-    this.getActividades();
-  }
-
-  getActividades(){
-    this.actividadesSerive.getActividades().subscribe(
-      res => {
-        this.actividades = res
-        console.log(res)
+  actualizarContadores() {
+    this.actividadesService.getActividades().subscribe(
+      (actividades: any[]) => {
+        this.contadorPendientes = actividades.filter(act => act.estado === 'pendiente').length;
+        this.contadorNoRealizadas = actividades.filter(act => act.estado === 'no-realizada').length;
+        this.contadorTerminadas = actividades.filter(act => act.estado === 'terminada').length;
       },
       err => console.log(err)
-    )
+    );
   }
 
-  deleteActiviti(id:string){
-    if (confirm('¿Estás seguro de eliminar esta actividad?')) {
-      this.actividadesSerive.deleteActividad(id).subscribe(
-        res => {
-          console.log('Actividad Eliminada',res)
-          this.getActividades();
-        },
-        err => console.log(err)
-      )
-    }
-
+  filtrarActividades(estado: string) {
+    // Navegar al componente de lista con el filtro aplicado
+    this.router.navigate(['/lista-actividades'], {
+      queryParams: { filtro: estado }
+    });
   }
 
   logout() {
     this.authService.logout();
     this.router.navigate(['/']);
   }
-
-
 }
