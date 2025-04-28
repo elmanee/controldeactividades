@@ -13,6 +13,8 @@ import { provideHttpClient } from '@angular/common/http'
 
 import { ActividadesService  } from './services/actividades.service';
 import { HomeComponent } from './components/home/home.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 
 
@@ -29,7 +31,8 @@ import { HomeComponent } from './components/home/home.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     ActividadesService,

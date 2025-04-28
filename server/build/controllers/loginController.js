@@ -23,8 +23,16 @@ class LoginController {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, password } = req.body;
             try {
-                //Verificar si el usuario ya existe
-                const [rows] = yield database_1.default.query("SELECT * FROM users WHERE email = ?", [email]);
+                // Validar longitud de la contraseña
+                if (!password || password.length < 4) {
+                    return res
+                        .status(400)
+                        .json({ msg: "La contraseña debe tener al menos 4 caracteres" });
+                }
+                // Verificar si el usuario ya existe
+                const [rows] = yield database_1.default.query("SELECT * FROM users WHERE email = ?", [
+                    email,
+                ]);
                 if (rows.length > 0) {
                     return res.status(400).json({ msg: "El usuario ya existe" });
                 }
@@ -43,7 +51,9 @@ class LoginController {
         return __awaiter(this, void 0, void 0, function* () {
             const { email, password } = req.body;
             try {
-                const [rows] = yield database_1.default.query("SELECT * FROM users WHERE email = ?", [email]);
+                const [rows] = yield database_1.default.query("SELECT * FROM users WHERE email = ?", [
+                    email,
+                ]);
                 const users = rows;
                 if (users.length === 0) {
                     return res.status(400).json({ msg: "Credenciales inválidas" });
@@ -55,7 +65,9 @@ class LoginController {
                     return res.status(400).json({ msg: "Credenciales inválidas" });
                 }
                 //aqui se genera el JWT
-                const token = jsonwebtoken_1.default.sign({ id: user.id, name: user.name }, JWT_SECRET, { expiresIn: "1h" });
+                const token = jsonwebtoken_1.default.sign({ id: user.id, name: user.name }, JWT_SECRET, {
+                    expiresIn: "1h",
+                });
                 console.log("Token generado:", token);
                 console.log("Usuario:", user.name);
                 console.log("Email:", user.email);
@@ -64,8 +76,8 @@ class LoginController {
                     user: {
                         id: user.id,
                         name: user.name,
-                        email: user.email
-                    }
+                        email: user.email,
+                    },
                 });
             }
             catch (error) {
