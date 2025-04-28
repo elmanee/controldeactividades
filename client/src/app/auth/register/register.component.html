@@ -1,28 +1,124 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header bg-success text-white">
-          <h4 class="text-center">Registrarse</h4>
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center min-vh-100 login-container">
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow-lg border-0">
+
+        <div class="card-header bg-primary text-white text-center py-4">
+          <h2>Registrarse</h2>
+          <p class="mb-0">Control de Actividades</p>
         </div>
-        <div class="card-body">
-          <form (ngSubmit)="register()">
+
+        <div class="card-body p-4">
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <!-- Campo de nombre -->
             <div class="mb-3">
               <label for="name" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="name" [(ngModel)]="name" name="name" required>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input
+                  type="text"
+                  formControlName="name"
+                  class="form-control"
+                  id="name"
+                  placeholder="Tu nombre"
+                  [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+                  autocomplete="name">
+                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                  <div *ngIf="f['name'].errors['required']">El nombre es obligatorio</div>
+                </div>
+              </div>
             </div>
+
+            <!-- Campo de correo -->
             <div class="mb-3">
               <label for="email" class="form-label">Correo electrónico</label>
-              <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email" required>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                <input
+                  type="email"
+                  formControlName="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="ejemplo@correo.com"
+                  [ngClass]="{'is-invalid': submitted && f['email'].errors}"
+                  autocomplete="email">
+                <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                  <div *ngIf="f['email'].errors['required']">El correo electrónico es obligatorio</div>
+                  <div *ngIf="f['email'].errors['email']">Introduce un correo electrónico válido</div>
+                </div>
+              </div>
             </div>
+
+            <!-- Campo de contraseña -->
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" required>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  formControlName="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Crea tu contraseña"
+                  [ngClass]="{'is-invalid': submitted && f['password'].errors}"
+                  autocomplete="new-password">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  (click)="togglePasswordVisibility('password')">
+                  <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                </button>
+                <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                  <div *ngIf="f['password'].errors['required']">La contraseña es obligatoria</div>
+                  <div *ngIf="f['password'].errors['minlength']">La contraseña debe tener al menos 4 caracteres</div>
+                </div>
+              </div>
             </div>
-            <button type="submit" class="btn btn-success w-100">Registrarse</button>
-            <p *ngIf="errorMessage" class="text-danger text-center mt-2">{{ errorMessage }}</p>
+
+            <!-- Campo de confirmar contraseña -->
+            <div class="mb-4">
+              <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+                <input
+                  [type]="showConfirmPassword ? 'text' : 'password'"
+                  formControlName="confirmPassword"
+                  class="form-control"
+                  id="confirmPassword"
+                  placeholder="Confirma tu contraseña"
+                  [ngClass]="{'is-invalid': submitted && (f['confirmPassword'].errors || passwordsNotMatch)}"
+                  autocomplete="new-password">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  (click)="togglePasswordVisibility('confirm')">
+                  <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                </button>
+                <div *ngIf="submitted && (f['confirmPassword'].errors || passwordsNotMatch)" class="invalid-feedback">
+                  <div *ngIf="f['confirmPassword'].errors?.['required']">Confirmar la contraseña es obligatorio</div>
+                  <div *ngIf="passwordsNotMatch">Las contraseñas no coinciden</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Registrarse
+              </button>
+            </div>
           </form>
         </div>
+
+        <div class="card-footer bg-light p-3 text-center">
+          ¿Ya tienes cuenta? <a routerLink="/login" class="text-decoration-none fw-bold">Inicia sesión aquí</a>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <img src="control.png" alt="Logo Control de Actividades" height="40">
+        <p class="text-muted small mt-2">© 2025 Control de Actividades</p>
       </div>
     </div>
   </div>

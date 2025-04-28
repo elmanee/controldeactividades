@@ -15,7 +15,6 @@ export class LoginComponent {
   errorMessage: string = '';
   loading: boolean = false;
   showPassword: boolean = false;
-  rememberMe: boolean = false;
   loginForm: FormGroup;
   submitted: boolean = false;
 
