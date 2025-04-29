@@ -15,6 +15,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from './auth/register/register.component';
+import { ListaActividadesComponent } from './components/lista-actividades/lista-actividades.component';
 
 
 
@@ -27,7 +28,8 @@ import { RegisterComponent } from './auth/register/register.component';
     RegisterComponent,
     ActividadesComponent,
     ActividadesFormComponent,
-    HomeComponent
+    HomeComponent,
+    ListaActividadesComponent
   ],
   imports: [
     BrowserModule,

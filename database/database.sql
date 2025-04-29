@@ -29,3 +29,8 @@ CREATE TABLE Actividad (
 //Índices para mejorar el rendimiento
 CREATE INDEX idx_usuario_id ON Actividad(usuario_id);
 CREATE INDEX idx_prioridad ON Actividad(prioridadActi);
+
+
+ALTER TABLE actividad 
+ADD COLUMN estado ENUM('pendiente', 'no-realizada', 'terminada') 
+DEFAULT 'pendiente' NOT NULL;

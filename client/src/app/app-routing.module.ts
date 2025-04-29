@@ -7,12 +7,14 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ActividadesComponent } from './components/actividades/actividades.component';
 import { ActividadesFormComponent } from './components/actividades-form/actividades-form.component';
 import { HomeComponent } from './components/home/home.component';
+import { ListaActividadesComponent } from './components/lista-actividades/lista-actividades.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'actividades', component: ActividadesComponent, canActivate: [AuthGuard] },
+  { path: 'lista-actividades', component: ListaActividadesComponent, canActivate: [AuthGuard]},
   { path: 'actividades/add', component: ActividadesFormComponent, canActivate: [AuthGuard] },
   { path: 'actividades/edit/:id', component: ActividadesFormComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/' }

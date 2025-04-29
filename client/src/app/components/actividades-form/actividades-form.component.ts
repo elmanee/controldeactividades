@@ -6,7 +6,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-actividades-form',
-  
   templateUrl: './actividades-form.component.html',
   styleUrl: './actividades-form.component.css'
 })
@@ -20,7 +19,8 @@ export class ActividadesFormComponent implements OnInit {
     fechaFin: new Date(),
     prioridadActi: '',
     usuario_id: 0,
-    created_at: new Date()
+    created_at: new Date(),
+    estado: 'pendiente' // Añadimos el estado por defecto
   };
 
   edit: boolean = false;
@@ -40,15 +40,20 @@ export class ActividadesFormComponent implements OnInit {
         this.actividadesService.getActividad(id).subscribe(
           res => {
             this.actividad = res;
-            this.actividad.fechaIni = this.actividad.fechaIni ? new Date(this.actividad.fechaIni) : new Date();  // Usar la fecha actual si no existe
-            this.actividad.fechaFin = this.actividad.fechaFin ? new Date(this.actividad.fechaFin) : new Date();  // Usar la fecha actual si no existe
+            // Asegurarnos de que el objeto tiene todas las propiedades necesarias
+            this.actividad.fechaIni = this.actividad.fechaIni ? new Date(this.actividad.fechaIni) : new Date();
+            this.actividad.fechaFin = this.actividad.fechaFin ? new Date(this.actividad.fechaFin) : new Date();
+
+            // Asegurarnos de que tiene un estado
+            if (!this.actividad.estado) {
+              this.actividad.estado = 'pendiente';
+            }
           },
           err => console.error(err)
         );
       }
     });
   }
-
 
   saveNewActivitie(): void {
     if (!this.actividad.nomActi || !this.actividad.descActi || !this.actividad.fechaIni || !this.actividad.fechaFin) {
@@ -57,6 +62,11 @@ export class ActividadesFormComponent implements OnInit {
     }
 
     delete this.actividad.created_at;
+
+    // Asegurarnos de que tiene un estado
+    if (!this.actividad.estado) {
+      this.actividad.estado = 'pendiente';
+    }
 
     this.actividadesService.saveActividad(this.actividad).subscribe(
       res => {
@@ -70,9 +80,6 @@ export class ActividadesFormComponent implements OnInit {
     );
   }
 
-
-
-
   updateAvtivite() {
     if (!this.actividad.id) {
       console.error("Error: La actividad no tiene un ID válido.");
@@ -81,7 +88,10 @@ export class ActividadesFormComponent implements OnInit {
 
     delete this.actividad.created_at;
 
-    this.actividadesService.updateActividad(this.actividad.id, this.actividad).subscribe(
+    // Asegurarnos de que el ID es una cadena de texto
+    const id = String(this.actividad.id); // Convertimos a string de forma segura
+
+    this.actividadesService.updateActividad(id, this.actividad).subscribe(
       res => {
         console.log("Actividad actualizada con éxito", res);
         this.router.navigate(['/actividades']);
